@@ -7,10 +7,3 @@ header {
 h1 {
   text-align: center;
 }
-
-.canvasDiv {
-  align-items: center;
-  background-color: whitesmoke;
-  height: 300;
-  width: 300;
-}
