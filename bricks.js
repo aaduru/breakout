@@ -11,26 +11,34 @@ class Brick {
     for(let i=0; i<this.columns; i++) {
       this.bricks[i] = [];
       for(let j=0; j < this.rows; j++) {
-        this.bricks[i][j] = { this.alive = true; };
+        this.bricks[i][j] = { x: 0, y: 0, status: 1};
       }
     }
   }
   //
-  // drawBricks(r, c) {
-  //   for(let i=0; i<c; i++) {
-  //     for(let j=0; j<r; j++) {
-  //       let brickX = (i*(bwidth+padding))+brickshiftspace;
-  //       let brickY = (j*(bheight+padding))+topemptyspace;
-  //       this.bricks[i][j].x = brickX;
-  //       this.bricks[i][j].y = brickY;
-  //       this.ctx.beginPath();
-  //       this.ctx.rect(brickX, brickY, bwidth, bheight);
-  //       this.ctx.fillStyle = "#841F27";
-  //       this.ctx.fill();
-  //       this.ctx.closePath();
-  //     }
-  //   }
-  // }
+  drawBricks(w,h, p, tp, lp) {
+    for (let c = 0; c < this.columns; c++) {
+      for (let r = 0; r < this.rows; r++) {
+        if (this.bricks[c][r].status > 0) {
+          let brickX = (c * (w + p)) + lp;
+          let brickY = (r * (h + p)) + tp;
+          this.bricks[c][r].x = brickX;
+          this.bricks[c][r].y = brickY;
+          // // console.log(brickX);
+          // // console.log(brickY);
+          // console.log(h);
+          // console.log(p);
+          // console.log(tp);
+          this.ctx.beginPath();
+          this.ctx.rect(brickX, brickY, w, h);
+          this.ctx.fillStyle = "#841F27";
+          this.ctx.fill();
+          this.ctx.closePath();
+        }
+      }
+  }
+}
+
 
 }
 

@@ -17,7 +17,7 @@ class  Paddle{
 
 
   updatePaddle(move){
-  
+
     if (move === -5 ){
       this.x += move;
       if (this.x === 0){
@@ -28,6 +28,16 @@ class  Paddle{
       if (this.x === 300){
         this.x = this.x - 5 ;
       }
+    }
+  }
+  restart(keys) {
+    if (keys.includes(13)) { // return
+
+      this.isOver = false;
+      this.level = 0;
+      this.score = 0;
+      this.lives = 3;
+
     }
   }
 }
