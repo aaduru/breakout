@@ -1,5 +1,5 @@
 class Ball {
-  constructor(ctx, i, j, dx, dy) {
+  constructor(ctx, i, j, dx, dy, pw) {
     this.ctx = ctx;
     this.dimX = i;
     this.dimY = j;
@@ -9,7 +9,7 @@ class Ball {
     this.movey = -dy;
     this.reachbottom = false;
 
-    this.paddlew = 100;
+    this.paddlew = pw;
   }
 
   displayBall() {

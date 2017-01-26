@@ -3,6 +3,7 @@ class GameView {
   constructor(game, ctx) {
     this.ctx = ctx;
     this.game = game;
+    this.game.draw(this.ctx);
     // this.paddleMove = this.game.paddleUpdate();
   }
 
@@ -15,6 +16,7 @@ class GameView {
       key(k, () => { this.game.paddle.updatePaddle(move); });
       // this.game.paddle.updatePaddle(move);
     });
+    key("space", () => { this.start(); });
   }
 
 
@@ -32,8 +34,8 @@ class GameView {
 }
 
 GameView.MOVES = {
-  "left": -5,
-  "right": 5
+  "left": -10,
+  "right": 10
 };
 
 

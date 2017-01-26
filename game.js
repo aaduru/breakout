@@ -7,8 +7,9 @@ class Game {
     this.ctx = ctx;
     this.dx = 1;
     this.dy = -1;
-    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy);
-    this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y);
+    this.paddleWidth = 100;
+    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
+    this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y, this.paddleWidth);
     this.rows = 1;
     this.columns = 6;
     this.brick = new Brick(ctx, this.rows, this.columns);
@@ -21,7 +22,7 @@ class Game {
     this.scorefactor = 100;
     this.lives = 3;
     this.level = 1 ;
-    this.maxlevel = 3;
+    this.maxlevel = 4;
     // this.bricks = [];
     this.isOver = false;
 
@@ -31,17 +32,23 @@ class Game {
     this.brickPadding = 1;
     this.brickTopPadding = 50;
     this.brickLeftPadding = 1;
+    this.count = this.noOfBricks;
   }
 
   drawScore(ctx){
-    // ctx.fillStyle = 'white';
-    // ctx.font = 'bold 24px Gloria Hallelujah';
-    // ctx.fillText(`SCORE : ${this.score}`, 20, 30);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 10px Gloria Hallelujah';
+    ctx.fillText(`SCORE : ${this.score}`, 20, 30);
   }
   drawLives(ctx){
-    // ctx.fillStyle = 'white';
-    // ctx.font = 'bold 24px Gloria Hallelujah';
-    // ctx.fillText(`Lives: ${this.lives}`, 20, 30);
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 10px Gloria Hallelujah';
+    ctx.fillText(`Lives: ${this.lives}`, 100, 30);
+  }
+  drawLevels(ctx){
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 10px Gloria Hallelujah';
+    ctx.fillText(`Level: ${this.level}`, 250, 30);
   }
 
 
@@ -69,14 +76,17 @@ class Game {
                   // console.log("inside");
                   // make the brick disappear
                   // need to change the direction of the ball
-
+                  // debugger
                   this.ball.movey = - this.ball.movey;
                   this.score += this.scorefactor;
-                  console.log(this.brick.bricks[c][r].alive);
-                  // debugger
-                  this.brick.bricks.alive[c][r] = -1;
-                  console.log("after collision");
-                    console.log(this.brick.bricks[c][r].alive);
+                  // console.log(this.brick.bricks[c][r].alive);
+                  console.log("before");
+                  console.log(this.count);
+                  this.brick.bricks[c][r].alive = -1;
+                  this.count --;
+                  console.log(this.count);
+                  // console.log("after collision");
+                  //   console.log(this.brick.bricks[c][r].alive);
                     // debugger
 
                 }
@@ -85,6 +95,44 @@ class Game {
           }
         }
       }
+    }
+  }
+
+  nextLevel(ctx){
+    if (this.count === 0) {
+      if (this.level < this.maxlevel ){
+        console.log("inside");
+        this.level++;
+        this.brick.bricks = [];
+        this.brick = null;
+        delete this.brick;
+
+        debugger
+        this.rows ++;
+        this.columns ++;
+        this.dx ++;
+        this.dy --;
+        this.paddleWidth - 25;
+        this.noOfBricks  ++;
+        this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
+        this.brickHeight = 15;
+        this.brickPadding = 1;
+        this.brickTopPadding = 50;
+        this.brickLeftPadding = 1;
+        this.count = this.noOfBricks;
+        this.count = (this.rows * this.noOfBricks);
+        this.brick = new Brick(ctx, this.rows, this.columns);
+        this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
+        this.ball.x = Game.DIM_X / 2;
+        this.ball.y = Game.DIM_Y - 30;
+        this.paddle.x = (Game.DIM_X / 2) - 50;
+        this.paddle.y = Game.DIM_Y - 20;
+        this.paddle.displayPaddle();
+        this.ball.displayBall();
+        this.ball.ballUpdate(this.paddle.x);
+        debugger
+      }
+
     }
   }
 
@@ -102,24 +150,44 @@ class Game {
     }
     this.paddle.displayPaddle();
     this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
-    if ((this.ball.y + this.ball.movey) > Game.DIM_Y) {
-      this.lives --;
-
-      console.log(this.lives);
-      if (this.lives === 0) {
-        this.gameover(ctx);
-      }
+    if ((this.ball.y + this.ball.movey) > (Game.DIM_Y + 20)) {
+      this.gameResetForLives(ctx);
     }
     this.collionDetection();
-    this.drawScore();
+    this.drawScore(ctx);
+    this.drawLives(ctx);
+    this.drawLevels(ctx);
+    this.gameOver(ctx);
+    this.nextLevel(ctx);
   }
 
-  gameover(ctx){
-    this.isOver = true;
+  gameResetForLives(ctx){
+    // console.log(this.lives);
+    this.lives --;
+    // console.log(this.lives);
+    // console.log(this.ball.x);
+    // console.log(this.ball.y);
+    this.ball.x = Game.DIM_X / 2;
+    this.ball.y = Game.DIM_Y - 30;
+    this.paddle.x = (Game.DIM_X / 2) - 50;
+    this.paddle.y = Game.DIM_Y - 20;
+    // console.log(this.ball.x);
+    // console.log(this.ball.y);
+    // console.log(this.paddle.x);
+    // console.log(this.paddle.y);
+
+
     this.paddle.displayPaddle();
     this.ball.displayBall();
     this.ball.ballUpdate(this.paddle.x);
-    this.drawGameOver(ctx);
+    // this.drawGameOver(ctx);
+
+  }
+
+  gameOver(ctx){
+    if (this.lives === 0){
+      this.drawGameOver(ctx);
+    }
   }
 
 
@@ -127,10 +195,12 @@ class Game {
     // ctx.fillStyle = 'white';
     // ctx.font = 'bold 24px Gloria Hallelujah';
     ctx.fillText(`GAME OVER`, 105, 200);
-    this.restart();
+    this.restart(ctx);
   }
 
-  restart() {
+
+
+  restart(ctx) {
 
     this.rows = 1;
     this.columns = 6;
@@ -156,7 +226,11 @@ class Game {
     this.brickPadding = 1;
     this.brickTopPadding = 50;
     this.brickLeftPadding = 1;
-
+    this.brick.bricks = [];
+    this.brick = null;
+    delete this.brick;
+    this.brick = new Brick(ctx, this.rows, this.columns);
+    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
   }
 
 

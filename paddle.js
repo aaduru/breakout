@@ -1,16 +1,17 @@
 class  Paddle{
-  constructor(ctx, i , j){
+  constructor(ctx, i , j, pw){
     this.ctx = ctx;
     this.dimX = i;
     this.dimY = j;
     this.x = (i / 2) - 50;
     this.y = j - 20;
+    this.paddleWidth = pw;
   }
   displayPaddle(){
 
     this.ctx.beginPath();
     this.ctx.fillStyle = "yellow";
-    this.ctx.rect(this.x, this.y, 100, 20);
+    this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
     this.ctx.closePath();
     this.ctx.fill();
   }
@@ -18,15 +19,15 @@ class  Paddle{
 
   updatePaddle(move){
 
-    if (move === -5 ){
+    if (move === -10 ){
       this.x += move;
       if (this.x === 0){
-        this.x = this.x + 5 ;
+        this.x = this.x + 10 ;
       }
-    }else if (move === 5){
+    }else if (move === 10){
       this.x += 5;
       if (this.x === 300){
-        this.x = this.x - 5 ;
+        this.x = this.x - 10 ;
       }
     }
   }

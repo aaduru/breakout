@@ -59,14 +59,19 @@
 	const Game = __webpack_require__(1);
 	const GameView = __webpack_require__(2);
 	
-	document.addEventListener("DOMContentLoaded", function(){
+	document.addEventListener("DOMContentLoaded", () => {
 	  const canvasEl = document.getElementsByTagName("canvas")[0];
 	  canvasEl.width = Game.DIM_X;
 	  canvasEl.height = Game.DIM_Y;
 	
 	  const ctx = canvasEl.getContext("2d");
 	  const game = new Game(ctx,Game.DIM_X,Game.DIM_Y );
-	  new GameView(game, ctx).start();
+	  const gameView = new GameView(game, ctx);
+	  document.addEventListener("keyup", (e) => {
+	    if(e.keyCode == 32) {
+	      gameView.start();
+	    }
+	  });
 	});
 	
 	// document.addEventListener("keydown", game.keyDown, false);
@@ -86,8 +91,9 @@
 	    this.ctx = ctx;
 	    this.dx = 1;
 	    this.dy = -1;
-	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy);
-	    this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y);
+	    this.paddleWidth = 100;
+	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
+	    this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y, this.paddleWidth);
 	    this.rows = 1;
 	    this.columns = 6;
 	    this.brick = new Brick(ctx, this.rows, this.columns);
@@ -100,7 +106,7 @@
 	    this.scorefactor = 100;
 	    this.lives = 3;
 	    this.level = 1 ;
-	    this.maxlevel = 3;
+	    this.maxlevel = 4;
 	    // this.bricks = [];
 	    this.isOver = false;
 	
@@ -110,17 +116,23 @@
 	    this.brickPadding = 1;
 	    this.brickTopPadding = 50;
 	    this.brickLeftPadding = 1;
+	    this.count = this.noOfBricks;
 	  }
 	
 	  drawScore(ctx){
-	    // ctx.fillStyle = 'white';
-	    // ctx.font = 'bold 24px Gloria Hallelujah';
-	    // ctx.fillText(`SCORE : ${this.score}`, 20, 30);
+	    ctx.fillStyle = 'white';
+	    ctx.font = 'bold 10px Gloria Hallelujah';
+	    ctx.fillText(`SCORE : ${this.score}`, 20, 30);
 	  }
 	  drawLives(ctx){
-	    // ctx.fillStyle = 'white';
-	    // ctx.font = 'bold 24px Gloria Hallelujah';
-	    // ctx.fillText(`Lives: ${this.lives}`, 20, 30);
+	    ctx.fillStyle = 'white';
+	    ctx.font = 'bold 10px Gloria Hallelujah';
+	    ctx.fillText(`Lives: ${this.lives}`, 100, 30);
+	  }
+	  drawLevels(ctx){
+	    ctx.fillStyle = 'white';
+	    ctx.font = 'bold 10px Gloria Hallelujah';
+	    ctx.fillText(`Level: ${this.level}`, 250, 30);
 	  }
 	
 	
@@ -148,14 +160,17 @@
 	                  // console.log("inside");
 	                  // make the brick disappear
 	                  // need to change the direction of the ball
-	
+	                  // debugger
 	                  this.ball.movey = - this.ball.movey;
 	                  this.score += this.scorefactor;
-	                  console.log(this.brick.bricks[c][r].alive);
-	                  // debugger
-	                  this.brick.bricks.alive[c][r] = -1;
-	                  console.log("after collision");
-	                    console.log(this.brick.bricks[c][r].alive);
+	                  // console.log(this.brick.bricks[c][r].alive);
+	                  console.log("before");
+	                  console.log(this.count);
+	                  this.brick.bricks[c][r].alive = -1;
+	                  this.count --;
+	                  console.log(this.count);
+	                  // console.log("after collision");
+	                  //   console.log(this.brick.bricks[c][r].alive);
 	                    // debugger
 	
 	                }
@@ -164,6 +179,44 @@
 	          }
 	        }
 	      }
+	    }
+	  }
+	
+	  nextLevel(ctx){
+	    if (this.count === 0) {
+	      if (this.level < this.maxlevel ){
+	        console.log("inside");
+	        this.level++;
+	        this.brick.bricks = [];
+	        this.brick = null;
+	        delete this.brick;
+	
+	        debugger
+	        this.rows ++;
+	        this.columns ++;
+	        this.dx ++;
+	        this.dy --;
+	        this.paddleWidth - 25;
+	        this.noOfBricks  ++;
+	        this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
+	        this.brickHeight = 15;
+	        this.brickPadding = 1;
+	        this.brickTopPadding = 50;
+	        this.brickLeftPadding = 1;
+	        this.count = this.noOfBricks;
+	        this.count = (this.rows * this.noOfBricks);
+	        this.brick = new Brick(ctx, this.rows, this.columns);
+	        this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
+	        this.ball.x = Game.DIM_X / 2;
+	        this.ball.y = Game.DIM_Y - 30;
+	        this.paddle.x = (Game.DIM_X / 2) - 50;
+	        this.paddle.y = Game.DIM_Y - 20;
+	        this.paddle.displayPaddle();
+	        this.ball.displayBall();
+	        this.ball.ballUpdate(this.paddle.x);
+	        debugger
+	      }
+	
 	    }
 	  }
 	
@@ -181,24 +234,44 @@
 	    }
 	    this.paddle.displayPaddle();
 	    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
-	    if ((this.ball.y + this.ball.movey) > Game.DIM_Y) {
-	      this.lives --;
-	
-	      console.log(this.lives);
-	      if (this.lives === 0) {
-	        this.gameover(ctx);
-	      }
+	    if ((this.ball.y + this.ball.movey) > (Game.DIM_Y + 20)) {
+	      this.gameResetForLives(ctx);
 	    }
 	    this.collionDetection();
-	    this.drawScore();
+	    this.drawScore(ctx);
+	    this.drawLives(ctx);
+	    this.drawLevels(ctx);
+	    this.gameOver(ctx);
+	    this.nextLevel(ctx);
 	  }
 	
-	  gameover(ctx){
-	    this.isOver = true;
+	  gameResetForLives(ctx){
+	    // console.log(this.lives);
+	    this.lives --;
+	    // console.log(this.lives);
+	    // console.log(this.ball.x);
+	    // console.log(this.ball.y);
+	    this.ball.x = Game.DIM_X / 2;
+	    this.ball.y = Game.DIM_Y - 30;
+	    this.paddle.x = (Game.DIM_X / 2) - 50;
+	    this.paddle.y = Game.DIM_Y - 20;
+	    // console.log(this.ball.x);
+	    // console.log(this.ball.y);
+	    // console.log(this.paddle.x);
+	    // console.log(this.paddle.y);
+	
+	
 	    this.paddle.displayPaddle();
 	    this.ball.displayBall();
 	    this.ball.ballUpdate(this.paddle.x);
-	    this.drawGameOver(ctx);
+	    // this.drawGameOver(ctx);
+	
+	  }
+	
+	  gameOver(ctx){
+	    if (this.lives === 0){
+	      this.drawGameOver(ctx);
+	    }
 	  }
 	
 	
@@ -206,10 +279,12 @@
 	    // ctx.fillStyle = 'white';
 	    // ctx.font = 'bold 24px Gloria Hallelujah';
 	    ctx.fillText(`GAME OVER`, 105, 200);
-	    this.restart();
+	    this.restart(ctx);
 	  }
 	
-	  restart() {
+	
+	
+	  restart(ctx) {
 	
 	    this.rows = 1;
 	    this.columns = 6;
@@ -235,7 +310,11 @@
 	    this.brickPadding = 1;
 	    this.brickTopPadding = 50;
 	    this.brickLeftPadding = 1;
-	
+	    this.brick.bricks = [];
+	    this.brick = null;
+	    delete this.brick;
+	    this.brick = new Brick(ctx, this.rows, this.columns);
+	    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
 	  }
 	
 	
@@ -259,6 +338,7 @@
 	  constructor(game, ctx) {
 	    this.ctx = ctx;
 	    this.game = game;
+	    this.game.draw(this.ctx);
 	    // this.paddleMove = this.game.paddleUpdate();
 	  }
 	
@@ -271,6 +351,7 @@
 	      key(k, () => { this.game.paddle.updatePaddle(move); });
 	      // this.game.paddle.updatePaddle(move);
 	    });
+	    key("space", () => { this.start(); });
 	  }
 	
 	
@@ -288,8 +369,8 @@
 	}
 	
 	GameView.MOVES = {
-	  "left": -5,
-	  "right": 5
+	  "left": -10,
+	  "right": 10
 	};
 	
 	
@@ -302,7 +383,7 @@
 /***/ function(module, exports) {
 
 	class Ball {
-	  constructor(ctx, i, j, dx, dy) {
+	  constructor(ctx, i, j, dx, dy, pw) {
 	    this.ctx = ctx;
 	    this.dimX = i;
 	    this.dimY = j;
@@ -312,7 +393,7 @@
 	    this.movey = -dy;
 	    this.reachbottom = false;
 	
-	    this.paddlew = 100;
+	    this.paddlew = pw;
 	  }
 	
 	  displayBall() {
@@ -408,18 +489,19 @@
 /***/ function(module, exports) {
 
 	class  Paddle{
-	  constructor(ctx, i , j){
+	  constructor(ctx, i , j, pw){
 	    this.ctx = ctx;
 	    this.dimX = i;
 	    this.dimY = j;
 	    this.x = (i / 2) - 50;
 	    this.y = j - 20;
+	    this.paddleWidth = pw;
 	  }
 	  displayPaddle(){
 	
 	    this.ctx.beginPath();
 	    this.ctx.fillStyle = "yellow";
-	    this.ctx.rect(this.x, this.y, 100, 20);
+	    this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
 	    this.ctx.closePath();
 	    this.ctx.fill();
 	  }
@@ -427,15 +509,15 @@
 	
 	  updatePaddle(move){
 	
-	    if (move === -5 ){
+	    if (move === -10 ){
 	      this.x += move;
 	      if (this.x === 0){
-	        this.x = this.x + 5 ;
+	        this.x = this.x + 10 ;
 	      }
-	    }else if (move === 5){
+	    }else if (move === 10){
 	      this.x += 5;
 	      if (this.x === 300){
-	        this.x = this.x - 5 ;
+	        this.x = this.x - 10 ;
 	      }
 	    }
 	  }
