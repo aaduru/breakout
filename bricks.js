@@ -19,6 +19,9 @@ class Brick {
   }
   //
   drawBricks(w,h, p, tp, lp) {
+    if (this.bricks.length === 0) {
+      return;
+    }
     for (let c = 0; c < this.columns; c++) {
       for (let r = 0; r < this.rows; r++) {
         if (this.bricks[c][r].alive > 0) {

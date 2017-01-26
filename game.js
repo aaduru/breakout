@@ -33,6 +33,8 @@ class Game {
     this.brickTopPadding = 50;
     this.brickLeftPadding = 1;
     this.count = this.noOfBricks;
+
+    this.inPlay = false;
   }
 
   drawScore(ctx){
@@ -76,18 +78,16 @@ class Game {
                   // console.log("inside");
                   // make the brick disappear
                   // need to change the direction of the ball
-                  // debugger
+
                   this.ball.movey = - this.ball.movey;
                   this.score += this.scorefactor;
-                  // console.log(this.brick.bricks[c][r].alive);
-                  console.log("before");
-                  console.log(this.count);
+
                   this.brick.bricks[c][r].alive = -1;
+                  // if (this.brick.bricks === []) {
+                  //
+                  // }
                   this.count --;
-                  console.log(this.count);
-                  // console.log("after collision");
-                  //   console.log(this.brick.bricks[c][r].alive);
-                    // debugger
+
 
                 }
               }
@@ -101,26 +101,33 @@ class Game {
   nextLevel(ctx){
     if (this.count === 0) {
       if (this.level < this.maxlevel ){
-        console.log("inside");
+        // debugger
+        // TODO: refactor to not rely on window
+        clearInterval(window.interval);
+        // this.inPlay = false;
         this.level++;
         this.brick.bricks = [];
         this.brick = null;
         delete this.brick;
-
-        debugger
+        this.ball = null;
+        delete this.ball;
+        this.paddle = null;
+        delete this.paddle;
         this.rows ++;
         this.columns ++;
         this.dx ++;
         this.dy --;
-        this.paddleWidth - 25;
+        this.paddleWidth  = this.paddleWidth-25;
         this.noOfBricks  ++;
         this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
         this.brickHeight = 15;
         this.brickPadding = 1;
         this.brickTopPadding = 50;
         this.brickLeftPadding = 1;
-        this.count = this.noOfBricks;
+
         this.count = (this.rows * this.noOfBricks);
+        this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
+        this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y, this.paddleWidth);
         this.brick = new Brick(ctx, this.rows, this.columns);
         this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
         this.ball.x = Game.DIM_X / 2;
@@ -130,7 +137,7 @@ class Game {
         this.paddle.displayPaddle();
         this.ball.displayBall();
         this.ball.ballUpdate(this.paddle.x);
-        debugger
+        // debugger
       }
 
     }
@@ -186,14 +193,15 @@ class Game {
 
   gameOver(ctx){
     if (this.lives === 0){
+      clearInterval(window.interval);
       this.drawGameOver(ctx);
     }
   }
 
 
   drawGameOver(ctx){
-    // ctx.fillStyle = 'white';
-    // ctx.font = 'bold 24px Gloria Hallelujah';
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 24px Gloria Hallelujah';
     ctx.fillText(`GAME OVER`, 105, 200);
     this.restart(ctx);
   }
@@ -221,6 +229,7 @@ class Game {
     this.isOver = false;
 
     this.noOfBricks = 6;
+    this.count = this.noOfBricks;
     this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
     this.brickHeight = 15;
     this.brickPadding = 1;
