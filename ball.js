@@ -1,12 +1,12 @@
 class Ball {
-  constructor(ctx, i, j) {
+  constructor(ctx, i, j, dx, dy) {
     this.ctx = ctx;
     this.dimX = i;
     this.dimY = j;
     this.x = i/2;
     this.y = j - 30;
-    this.movex = 1;
-    this.movey = -1;
+    this.movex = dx;
+    this.movey = -dy;
     this.reachbottom = false;
 
     this.paddlew = 100;

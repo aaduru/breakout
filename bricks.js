@@ -11,7 +11,9 @@ class Brick {
     for(let i=0; i<this.columns; i++) {
       this.bricks[i] = [];
       for(let j=0; j < this.rows; j++) {
-        this.bricks[i][j] = { x: 0, y: 0, status: 1};
+        // need to have x postion, y postion and alive value for every brick
+        this.bricks[i][j] = { x: 0, y: 0, alive: 1};
+
       }
     }
   }
@@ -19,7 +21,8 @@ class Brick {
   drawBricks(w,h, p, tp, lp) {
     for (let c = 0; c < this.columns; c++) {
       for (let r = 0; r < this.rows; r++) {
-        if (this.bricks[c][r].status > 0) {
+        if (this.bricks[c][r].alive > 0) {
+          // set x and y postion of the bricks so that i can use them to keep track of the bricks
           let brickX = (c * (w + p)) + lp;
           let brickY = (r * (h + p)) + tp;
           this.bricks[c][r].x = brickX;

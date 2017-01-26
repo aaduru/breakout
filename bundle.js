@@ -84,7 +84,9 @@
 	class Game {
 	  constructor(ctx) {
 	    this.ctx = ctx;
-	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y);
+	    this.dx = 1;
+	    this.dy = -1;
+	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy);
 	    this.paddle = new Paddle(ctx, Game.DIM_X, Game.DIM_Y);
 	    this.rows = 1;
 	    this.columns = 6;
@@ -92,11 +94,10 @@
 	
 	    this.x = Game.DIM_X / 2;
 	    this.y = Game.DIM_Y-30;
-	    this.dx = 1;
-	    this.dy = 1;
 	    this.radius = 10;
 	
 	    this.score = 0 ;
+	    this.scorefactor = 100;
 	    this.lives = 3;
 	    this.level = 1 ;
 	    this.maxlevel = 3;
@@ -111,8 +112,59 @@
 	    this.brickLeftPadding = 1;
 	  }
 	
-	  paddleUpdate() {
+	  drawScore(ctx){
+	    // ctx.fillStyle = 'white';
+	    // ctx.font = 'bold 24px Gloria Hallelujah';
+	    // ctx.fillText(`SCORE : ${this.score}`, 20, 30);
+	  }
+	  drawLives(ctx){
+	    // ctx.fillStyle = 'white';
+	    // ctx.font = 'bold 24px Gloria Hallelujah';
+	    // ctx.fillText(`Lives: ${this.lives}`, 20, 30);
+	  }
 	
+	
+	  collionDetection(){
+	    for( let c = 0; c < this.columns ; c++ ){
+	      for ( let r = 0; r < this.rows; r++){
+	        // debugger
+	        // let collision = this.brick.bricks[c][r];
+	        //
+	        // console.log(this.collison);
+	        // console.log(this.brick.bricks);
+	        // the position of ball is greater than the position of brick
+	        if (this.brick.bricks[c][r].alive === 1) {
+	          // console.log(this.brick.bricks[c][r]);
+	          if (this.ball.x > this.brick.bricks[c][r].x) {
+	            if (this.ball.y > this.brick.bricks[c][r].y){
+	              // console.log("inside");
+	              //should check for position of ball being less than that of brick
+	              //here i need to width of the brick to the x position of brick as the ball can hit any part of the width
+	
+	              if(this.ball.x < (this.brick.bricks[c][r].x + this.brickWidth)) {
+	                // i  need to check if i need to add height as well
+	                // console.log("inside");
+	                if(this.ball.y < (this.brick.bricks[c][r].y + this.brickHeight)){
+	                  // console.log("inside");
+	                  // make the brick disappear
+	                  // need to change the direction of the ball
+	
+	                  this.ball.movey = - this.ball.movey;
+	                  this.score += this.scorefactor;
+	                  console.log(this.brick.bricks[c][r].alive);
+	                  // debugger
+	                  this.brick.bricks.alive[c][r] = -1;
+	                  console.log("after collision");
+	                    console.log(this.brick.bricks[c][r].alive);
+	                    // debugger
+	
+	                }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
 	  }
 	
 	  draw(ctx) {
@@ -129,27 +181,61 @@
 	    }
 	    this.paddle.displayPaddle();
 	    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
-	    if (this.ball.reachbottom) {
+	    if ((this.ball.y + this.ball.movey) > Game.DIM_Y) {
+	      this.lives --;
 	
-	      this.gameover(ctx);
+	      console.log(this.lives);
+	      if (this.lives === 0) {
+	        this.gameover(ctx);
+	      }
 	    }
+	    this.collionDetection();
+	    this.drawScore();
 	  }
 	
 	  gameover(ctx){
 	    this.isOver = true;
+	    this.paddle.displayPaddle();
+	    this.ball.displayBall();
+	    this.ball.ballUpdate(this.paddle.x);
 	    this.drawGameOver(ctx);
 	  }
 	
-	  collionDetection(){
-	
-	  }
 	
 	  drawGameOver(ctx){
+	    // ctx.fillStyle = 'white';
+	    // ctx.font = 'bold 24px Gloria Hallelujah';
 	    ctx.fillText(`GAME OVER`, 105, 200);
+	    this.restart();
+	  }
 	
-	    ctx.fillStyle = 'red';
-	    ctx.font = 'bold 48px Russo One';
-	    ctx.fillText(`HIT ENTER TO RESTART`, 15, 600);
+	  restart() {
+	
+	    this.rows = 1;
+	    this.columns = 6;
+	
+	
+	    this.x = Game.DIM_X / 2;
+	    this.y = Game.DIM_Y-30;
+	    this.dx = 1;
+	    this.dy = -1;
+	    this.radius = 10;
+	
+	    this.score = 0 ;
+	    this.scorefactor = 100;
+	    this.lives = 3;
+	    this.level = 1 ;
+	    this.maxlevel = 3;
+	    // this.bricks = [];
+	    this.isOver = false;
+	
+	    this.noOfBricks = 6;
+	    this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
+	    this.brickHeight = 15;
+	    this.brickPadding = 1;
+	    this.brickTopPadding = 50;
+	    this.brickLeftPadding = 1;
+	
 	  }
 	
 	
@@ -216,14 +302,14 @@
 /***/ function(module, exports) {
 
 	class Ball {
-	  constructor(ctx, i, j) {
+	  constructor(ctx, i, j, dx, dy) {
 	    this.ctx = ctx;
 	    this.dimX = i;
 	    this.dimY = j;
 	    this.x = i/2;
 	    this.y = j - 30;
-	    this.movex = 1;
-	    this.movey = -1;
+	    this.movex = dx;
+	    this.movey = -dy;
 	    this.reachbottom = false;
 	
 	    this.paddlew = 100;
@@ -280,7 +366,9 @@
 	    for(let i=0; i<this.columns; i++) {
 	      this.bricks[i] = [];
 	      for(let j=0; j < this.rows; j++) {
-	        this.bricks[i][j] = { x: 0, y: 0, status: 1};
+	        // need to have x postion, y postion and alive value for every brick
+	        this.bricks[i][j] = { x: 0, y: 0, alive: 1};
+	
 	      }
 	    }
 	  }
@@ -288,7 +376,8 @@
 	  drawBricks(w,h, p, tp, lp) {
 	    for (let c = 0; c < this.columns; c++) {
 	      for (let r = 0; r < this.rows; r++) {
-	        if (this.bricks[c][r].status > 0) {
+	        if (this.bricks[c][r].alive > 0) {
+	          // set x and y postion of the bricks so that i can use them to keep track of the bricks
 	          let brickX = (c * (w + p)) + lp;
 	          let brickY = (r * (h + p)) + tp;
 	          this.bricks[c][r].x = brickX;
