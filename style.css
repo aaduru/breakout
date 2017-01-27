@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Pattaya');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
 
 html, body, header, h1, h2,
 main, a, img, div {
@@ -15,9 +17,9 @@ main, a, img, div {
 
 
 header {
-  height: 10px;
+  height: 105px;
   width: 100%;
-  align-items: center;
+  background-color: lightskyblue;
 }
 
 h1 {
@@ -27,6 +29,9 @@ h1 {
 .linkImage {
   height: 20px;
   width: 20px;
+  padding: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .title {
   font-family: 'Pacifico';
@@ -34,7 +39,7 @@ h1 {
 }
 
 .links {
-  float: right;
+  text-align: center;
   padding: 10px;
 }
 
@@ -45,10 +50,50 @@ h1 {
 canvas {
   padding: 20px;
   margin: 20px;
-  align-self: center;
+  align-self: baseline;
+
 }
 
 .canvasDiv {
-  align-items: center;
-  margin-left: 100;
+  /*align-items: center;*/
+  padding-right: 220px;
+
+}
+.bottombody {
+  display: flex;
+  justify-content: space-between;;
+
+}
+
+.instruction {
+  border: 1px solid black;
+  padding:10px;
+  margin-left: 100px;
+  /*margin-right: 100px;*/
+  margin-top: 85px;
+  height: 180px;
+  width: 200px;
+  min-width: 200px;
+  min-height: 200px;
+
+}
+
+.right {
+  height: 20px;
+  width: 20px;
+}
+.left {
+  height: 20px;
+  width: 20px;
+}
+
+h2 {
+  font-family: 'Pattaya';
+  font-size: 20px;
+  font-weight: bold;
+  color: #e8900a;
+}
+
+p {
+  font-family: 'Indie Flower';
 }

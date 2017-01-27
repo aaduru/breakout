@@ -12,15 +12,16 @@ class GameView {
     Object.keys(GameView.MOVES).forEach((k) => {
       let move = GameView.MOVES[k];
 
-      key(k, () => { this.game.paddle.updatePaddle(move); });
+      key(k, () => { console.log("callingpaddle");
+      this.game.paddle.updatePaddle(move); });
       // this.game.paddle.updatePaddle(move);
     });
-    // key("space", () => { this.start(); });
   }
 
 
   start() {
-
+    key.unbind('left');
+    key.unbind('right');
     this.bindKeyHandlers();
     // TODO: refactor to not be on window
     window.interval = setInterval( () => {

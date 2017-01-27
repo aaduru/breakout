@@ -18,18 +18,18 @@ class  Paddle{
 
 
   updatePaddle(move){
-
+    console.log('updating paddle');
     if (move === -10 ){
-      if (this.x > 20){
-          this.x += (-30);
+      if (this.x > 10){
+          this.x += (-10);
         // this.x = this.x + 10 ;
       }
       else {
         this.x = 0;
       }
     }else if (move === 10){
-      if (this.x < (400-this.paddleWidth-30)){
-          this.x += (30);
+      if (this.x < (400-this.paddleWidth-10)){
+          this.x += (10);
         // this.x = this.x - 10 ;
       }
       else {
@@ -37,16 +37,7 @@ class  Paddle{
       }
     }
   }
-  restart(keys) {
-    if (keys.includes(13)) { // return
 
-      this.isOver = false;
-      this.level = 0;
-      this.score = 0;
-      this.lives = 3;
-
-    }
-  }
 }
 
 module.exports = Paddle;

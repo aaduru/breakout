@@ -1,55 +1,99 @@
 ## BreakOut
 
-### Background
+### About the Game
 
-In the game, a layer of bricks lines the top of the screen. A ball travels across the screen, bouncing off the top and side walls of the screen. When a brick is hit, the ball bounces away and the brick is destroyed. The player loses a turn when the ball touches the bottom of the screen. To prevent this from happening, the player has a movable paddle to bounce the ball upward, keeping it in play.
+In the game, a layer of bricks lines the top of the screen. A ball travels across the screen, bouncing off the top and side walls of the screen. When a brick is hit, the ball bounces away and the brick is destroyed. The player loses a turn when the ball touches the bottom of the screen. To prevent this from happening, the player has a movable paddle to bounce the ball upward, keeping it in play. I have 3 levels of increased difficulty.
 
-### Functionality & MVP  
+[BreakOut][breakout]
+[breakout]: 
 
-- [ ] Start the game and display the bricks and move the ball within the screen.
-- [ ] Collision of the ball with the bricks (Will Be able to break the bricks on top of the screen).
-- [ ] No of lives (The user will have 3 lives to play this game).
-- [ ] No of levels (There will be three levels in the game, in each level the movable paddle size will decrease, the ball's speed will increase and no of rows of bricks will increase along with the bricks on each level).
+### Game Design:
 
-In addition, this project will include:
+BreakOut was built in less than a week.
 
-- [ ] A production Readme
+A [proposal][proposal] was drafted to help provide an implementation timeline during the development process.
 
-### Wireframes
-
-This app will consist of a single screen with game board, game instructions, and nav bar. The nav bar will have the name of the game and links to mu Github and  my LinkedIn accounts. The game instructions will have instructions of the game and keys used to play the game. The game board will have the bricks and the paddle and the ball.
-
-![wireframes](images/JavaScript Game.png)
+[proposal]: ./images/README.md
 
 ### Architecture and Technologies
 
+- The overall game logic and structure is built using Vanilla JavaScript
+- for DOM manipulation and rendering utilized HTML5 Canvas
+- implemented styling using CSS
 
-This project will be implemented with the following technologies:
+The project has the following files.
 
-- Vanilla JavaScript for overall structure and game logic,
-- `HTML5 Canvas` for DOM manipulation and rendering,
-- CSS for styling
+`breakout.js`: Is the entry file of the game. It has event listeners to the canvas for keyboard moves(used to move the paddle) and spacebar(to start the game). The gameview's function start() gets triggered once the user presses spacebar.
 
-The project will have the following files.
+`gameView.js`: This file binds the keys from the keymaster and passes them to the paddle, which helps in the movement of the paddle.It also has function start which is calls the the game's draw function in specific interval of time.
 
-`game.js`: This is the main script file which will handle all the logic behind the screen. It will involve creation of the bricks, ball and paddle. It will also have functions which will move the ball, collision detection of the bricks and the ball and will have functions to create new lives and levels.
-
-### Implementation Timeline
-
-**Day 1**: Setup all necessary Node modules, including getting webpack up and running.  Create `webpack.config.js`.   
-- Get a green bundle with `webpack`
-- Write the html page with required elements for nav bar, game board and the game instructions and give it basic styling.
-- In the game.js script file, write functions to display the bricks, paddle and the ball. write function for the ball to move around.
+`game.js`: The main file which imports ball, paddle and brick files. The instances for above is created in the constructor and ball, paddle and bricks are displayed in the canvas. This file has the main brick ball collision logic.
 
 
-**Day 2**: Write a collision function. This function will let the ball move around the three walls of the board ie the top, left and right. When the ball hits the brick the brick should disappear. create keyboard controls to move the paddle (ie the paddle should move to left and right based on the arrow keys)
+collision logic for bottom side of brick
 
-**Day 3**: No of lives. A player can have only 3 lives. If a ball does not touch the paddle when it is travelling towards the bottom side of the screen the player loses a life. Create button to start the game.
+```js
+if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
+  if((this.ball.y-this.radius) > (this.brick.bricks[c][r].y+this.brickHeight-Math.abs(this.ball.movey))){
+    if((this.ball.y-this.radius) < (this.brick.bricks[c][r].y+this.brickHeight+Math.abs(this.ball.movey))){
+      this.collision = true;
+      this.ball.movey = - this.ball.movey;
 
-**Day 4**: No of levels. There will three levels that the user has to play to win the game, each increasing with difficulty.
+    }
+  }
+}
+```
 
-- create three levels with increased difficulty
-- Have a styled `Canvas`, nice looking controls and title
+logic:
+I am checking the x and y positions of the brick and ball to check if the ball collides with bottom part of the brick. For the bottom part of the brick i check if the x position of the brick minus the radius is less than that of x position of the ball and the x position of the brick  summed with Brick width and radius greater than the position of the ball  is true then i check for the y position of the brick and the ball in a similar way. The above condition will be true only when the ball is colliding from the bottom, if that happens i remove that brick and change the direction of the ball.
+
+I have calculated similarly for the top, left and right.
+
+
+The game class also calculates the score. if the ball goes beyond the y bottom of the canvas then the player loses a life.
+
+```js
+if ((this.ball.y + this.ball.movey) > (Game.DIM_Y - 10)) {
+  this.gameResetForLives(ctx);
+}
+```
+
+The game has three levels. A user can go to the next level only if the all the bricks in the current level are hit.
+
+
+`ball.js`: This class has 2 functions, one to display the ball and one function to move the ball around the canvas.
+
+`bricks.js`: This class has 2 functions, one to create the array of brick objects. The other function displays the brick objects that are not hit.
+
+`paddle.js`: this class has 2 functions, one to display the paddle. The other function moves the paddle when the user presses key.
+
+```js
+
+Object.keys(GameView.MOVES).forEach((k) => {
+  let move = GameView.MOVES[k];
+
+  key(k, () => {
+  this.game.paddle.updatePaddle(move); });
+
+});
+}
+```
+
+When the user presses an arrow the move value gets passed to the the updatePaddle function.
+
+```js
+
+    if (move === -10 ){
+      if (this.x > 10){
+          this.x += (-10);
+      }
+      else {
+        this.x = 0;
+      }
+    }
+```
+if left arrow is pressed then the paddle's x position is summed with the move value and the paddle moves left.
+
 
 
 ### Bonus features

@@ -11,9 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const game = new Game(ctx,Game.DIM_X,Game.DIM_Y );
   const gameView = new GameView(game, ctx);
   document.addEventListener("keyup", (e) => {
-    if(e.keyCode == 32 ) {
-      // && !game.inPlay
-      // game.inPlay = true;
+    if(e.keyCode == 32 && !game.inPlay) {
+      game.inPlay = true;
       // console.log(game.inPlay);
       gameView.start();
     }

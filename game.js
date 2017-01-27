@@ -47,13 +47,13 @@ class Game {
   drawLives(ctx){
     ctx.fillStyle = 'white';
     ctx.font = 'bold 10px Gloria Hallelujah';
-    ctx.fillText(`Lives: ${this.lives}`, 100, 30);
+    ctx.fillText(`Lives: ${this.lives}`, 170, 30);
   }
 
   drawLevels(ctx){
     ctx.fillStyle = 'white';
     ctx.font = 'bold 10px Gloria Hallelujah';
-    ctx.fillText(`Level: ${this.level}`, 250, 30);
+    ctx.fillText(`Level: ${this.level}`, 340, 30);
   }
 
   displayLevel(ctx){
@@ -62,10 +62,10 @@ class Game {
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Gloria Hallelujah';
-    ctx.fillText(`Level: ${this.level + 1}`, 50, 200);
+    ctx.fillText(`Level: ${this.level + 1}`, 50, 50);
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Gloria Hallelujah';
-    ctx.fillText(`Your Score: ${this.score}`, 150, 250);
+    ctx.fillText(`Your Score: ${this.score}`, 150, 150);
   }
 
   drawGameOver(ctx){
@@ -77,7 +77,7 @@ class Game {
     ctx.fillText(`GAME OVER`, 25, 100);
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Gloria Hallelujah';
-    ctx.fillText(`Your Score: ${this.score}`, 150, 250);
+    ctx.fillText(`Your Score: ${this.score}`, 100, 250);
     this.restart(ctx);
   }
   drawGameWon(ctx){
@@ -89,7 +89,7 @@ class Game {
     ctx.fillText(`You have won`, 25, 100);
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Gloria Hallelujah';
-    ctx.fillText(`Your Score: ${this.score}`, 150, 250);
+    ctx.fillText(`Your Score: ${this.score}`, 100, 250);
     this.restart(ctx);
   }
 
@@ -97,10 +97,10 @@ class Game {
 
 
   brickBallCollision(){
-    console.log("X cord");
-    console.log(this.ball.x);
-    console.log("Y cord");
-    console.log(this.ball.y);
+    // console.log("X cord");
+    // console.log(this.ball.x);
+    // console.log("Y cord");
+    // console.log(this.ball.y);
     for( let c = 0; c < this.columns ; c++ ){
       for ( let r = 0; r < this.rows; r++){
         // the position of ball is greater than the position of brick
@@ -134,7 +134,7 @@ class Game {
               if((this.ball.y-this.radius) < (this.brick.bricks[c][r].y+this.brickHeight+Math.abs(this.ball.movey))){
                 this.collision = true;
                 this.ball.movey = - this.ball.movey;
-                console.log("Bottom Collison");
+                // console.log("Bottom Collison");
               }
             }
           }
@@ -145,7 +145,7 @@ class Game {
               if((this.ball.y+this.radius) < (this.brick.bricks[c][r].y+Math.abs(this.ball.movey))){
                 this.collision = true;
                 this.ball.movey = - this.ball.movey;
-                console.log("Top Collison");
+                // console.log("Top Collison");
               }
             }
           }
@@ -156,7 +156,7 @@ class Game {
               if((this.ball.x+this.radius) < Math.round(this.brick.bricks[c][r].x+Math.abs(this.ball.movex))){
                 this.collision = true;
                 this.ball.movex = - this.ball.movex;
-                console.log("left Collison");
+                // console.log("left Collison");
               }
             }
           }
@@ -168,7 +168,7 @@ class Game {
               if((this.ball.x-this.radius) < Math.round(this.brick.bricks[c][r].x+this.brickWidth+Math.abs(this.ball.movex))){
                 this.collision = true;
                 this.ball.movex = - this.ball.movex;
-                console.log("Right Collison");
+                // console.log("Right Collison");
               }
             }
           }
@@ -194,6 +194,7 @@ class Game {
       if (this.level < this.maxlevel ){
         // TODO: refactor to not rely on window
         clearInterval(window.interval);
+        this.inPlay = false;
         this.level++;
         this.brick.bricks = [];
         this.brick = null;
@@ -267,14 +268,23 @@ class Game {
     this.paddle.x = (Game.DIM_X / 2) - 50;
     this.paddle.y = Game.DIM_Y - 20;
 
+    clearInterval(window.interval);
+    this.inPlay = false;
+    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+    ctx.fillStyle = Game.BG_COLOR;
+    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
     this.paddle.displayPaddle();
     this.ball.displayBall();
     this.ball.ballUpdate(this.paddle.x);
+    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
+
+
   }
 
   gameOver(ctx){
     if (this.lives === 0){
       clearInterval(window.interval);
+      this.inPlay = false;
       this.drawGameOver(ctx);
     }
   }
