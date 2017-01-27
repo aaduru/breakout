@@ -319,7 +319,7 @@
 	    }
 	    this.paddle.displayPaddle();
 	    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
-	    if ((this.ball.y + this.ball.movey) > (Game.DIM_Y + 20)) {
+	    if ((this.ball.y + this.ball.movey) > (Game.DIM_Y - 10)) {
 	      this.gameResetForLives(ctx);
 	    }
 	    this.brickBallCollision();
