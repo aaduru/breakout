@@ -35,6 +35,7 @@ class Game {
     this.count = this.noOfBricks;
 
     this.inPlay = false;
+    this.collision = false;
   }
 
   drawScore(ctx){
@@ -96,27 +97,75 @@ class Game {
 
 
   brickBallCollision(){
+    console.log("X cord");
+    console.log(this.ball.x);
+    console.log("Y cord");
+    console.log(this.ball.y);
     for( let c = 0; c < this.columns ; c++ ){
       for ( let r = 0; r < this.rows; r++){
         // the position of ball is greater than the position of brick
+        // if (this.brick.bricks[c][r].alive === 1) {
+        //   // console.log(this.brick.bricks[c][r]);
+        //   if ((this.ball.x - this.radius) > (this.brick.bricks[c][r].x - this.brickWidth) ) {
+        //     if ( (this.ball.y + this.radius) >= (this.brick.bricks[c][r].y - this.brickHeight)){
+        //       //should check for position of ball being less than that of brick
+        //       //here i need to width of the brick to the x position of brick as the ball can hit any part of the width
+        //       if((this.ball.x + this.radius) <= (this.brick.bricks[c][r].x + this.brickWidth)) {
+        //         // i  need to check if i need to add height as well
+        //         if((this.ball.y - this.radius) <= (this.brick.bricks[c][r].y + this.brickHeight)){
+        //           // make the brick disappear
+        //           // need to change the direction of the ball
+        //           this.ball.movey = - this.ball.movey;
+        //           this.score += this.scorefactor;
+        //           this.brick.bricks[c][r].alive = -1;
+        //           this.count --;
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
         if (this.brick.bricks[c][r].alive === 1) {
-          // console.log(this.brick.bricks[c][r]);
-          if ((this.ball.x - this.radius) > (this.brick.bricks[c][r].x - this.brickWidth) ) {
-            if ( (this.ball.y + this.radius) >= (this.brick.bricks[c][r].y - this.brickHeight)){
-              //should check for position of ball being less than that of brick
-              //here i need to width of the brick to the x position of brick as the ball can hit any part of the width
-              if((this.ball.x + this.radius) <= (this.brick.bricks[c][r].x + this.brickWidth)) {
-                // i  need to check if i need to add height as well
-                if((this.ball.y - this.radius) <= (this.brick.bricks[c][r].y + this.brickHeight)){
-                  // make the brick disappear
-                  // need to change the direction of the ball
-                  this.ball.movey = - this.ball.movey;
-                  this.score += this.scorefactor;
-                  this.brick.bricks[c][r].alive = -1;
-                  this.count --;
-                }
-              }
+          //Check bottom collision
+          // debugger
+          this.collision = false;
+          if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
+            if((this.ball.y-this.radius) === (this.brick.bricks[c][r].y+this.brickHeight)){
+              this.collision = true;
+              this.ball.movey = - this.ball.movey;
+              console.log("Bottom Collison");
             }
+          }
+          //Check top collision
+          if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
+            if((this.ball.y+this.radius) === (this.brick.bricks[c][r].y)){
+              this.collision = true;
+              this.ball.movey = - this.ball.movey;
+              console.log("Top Collison");
+            }
+          }
+          //Check left collision
+          if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
+            if((this.ball.x+this.radius) === Math.round(this.brick.bricks[c][r].x)){
+              //debugger
+              this.collision = true;
+              this.ball.movex = - this.ball.movex;
+              console.log("left Collison");
+            }
+          }
+          //Check right collision
+          if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
+            //debugger
+            if((this.ball.x-this.radius) === Math.round(this.brick.bricks[c][r].x+this.brickWidth)){
+              this.collision = true;
+              this.ball.movex = - this.ball.movex;
+              console.log("Right Collison");
+            }
+          }
+          if(this.collision) {
+            this.score += this.scorefactor;
+            this.brick.bricks[c][r].alive = -1;
+            this.count --;
+            this.collision = false;
           }
         }
       }
