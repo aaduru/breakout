@@ -20,14 +20,20 @@ class  Paddle{
   updatePaddle(move){
 
     if (move === -10 ){
-      this.x += move;
-      if (this.x === 0){
-        this.x = this.x + 10 ;
+      if (this.x > 20){
+          this.x += (-30);
+        // this.x = this.x + 10 ;
+      }
+      else {
+        this.x = 0;
       }
     }else if (move === 10){
-      this.x += 5;
-      if (this.x === 300){
-        this.x = this.x - 10 ;
+      if (this.x < (400-this.paddleWidth-30)){
+          this.x += (30);
+        // this.x = this.x - 10 ;
+      }
+      else {
+          this.x = 400-this.paddleWidth;
       }
     }
   }
