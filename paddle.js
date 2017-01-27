@@ -1,10 +1,10 @@
 class  Paddle{
   constructor(ctx, i , j, pw){
     this.ctx = ctx;
-    this.dimX = i;
-    this.dimY = j;
-    this.x = (i / 2) - 50;
-    this.y = j - 20;
+    // this.dimX = i;
+    // this.dimY = j;
+    this.x = i;
+    this.y = j;
     this.paddleWidth = pw;
   }
   displayPaddle(){

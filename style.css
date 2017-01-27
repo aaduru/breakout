@@ -1,4 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+html, body, header, h1, h2,
+main, a, img, div {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ font: inherit;
+ color: inherit;
+ text-align: inherit;
+ text-decoration: inherit;
+ background: transparent;
+}
+
+
 header {
   height: 10px;
   width: 100%;
@@ -7,4 +22,33 @@ header {
 
 h1 {
   text-align: center;
+}
+
+.linkImage {
+  height: 20px;
+  width: 20px;
+}
+.title {
+  font-family: 'Pacifico';
+  font-size: 40px;
+}
+
+.links {
+  float: right;
+  padding: 10px;
+}
+
+.link {
+  padding: 10px;
+}
+
+canvas {
+  padding: 20px;
+  margin: 20px;
+  align-self: center;
+}
+
+.canvasDiv {
+  align-items: center;
+  margin-left: 100;
 }
