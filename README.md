@@ -5,7 +5,7 @@
 In the game, a layer of bricks lines the top of the screen. A ball travels across the screen, bouncing off the top and side walls of the screen. When a brick is hit, the ball bounces away and the brick is destroyed. The player loses a turn when the ball touches the bottom of the screen. To prevent this from happening, the player has a movable paddle to bounce the ball upward, keeping it in play. I have 3 levels of increased difficulty.
 
 [BreakOut][breakout]
-[breakout]: 
+[breakout]:https://aaduru.github.io/breakout/
 
 ### Game Design:
 
@@ -14,6 +14,8 @@ BreakOut was built in less than a week.
 A [proposal][proposal] was drafted to help provide an implementation timeline during the development process.
 
 [proposal]: ./images/README.md
+
+![images](./images/gamepage.png)
 
 ### Architecture and Technologies
 

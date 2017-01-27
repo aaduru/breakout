@@ -19,7 +19,7 @@ In addition, this project will include:
 
 This app will consist of a single screen with game board, game instructions, and nav bar. The nav bar will have the name of the game and links to mu Github and  my LinkedIn accounts. The game instructions will have instructions of the game and keys used to play the game. The game board will have the bricks and the paddle and the ball.
 
-![wireframes](images/JavaScript Game.png)
+![images](./JavaScript Game.png)
 
 ### Architecture and Technologies
 
