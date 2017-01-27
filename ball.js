@@ -37,9 +37,9 @@ class Ball {
     }
     this.x+=this.movex;
     this.y+=this.movey;
-    if (this.y >= 289) {
-      this.reachbottom = true;
-    }
+    // if (this.y >= 289) {
+    //   this.reachbottom = true;
+    // }
   }
 }
 

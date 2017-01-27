@@ -81,7 +81,7 @@
 	    this.dy = -1;
 	    this.paddleWidth = 100;
 	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
-	    this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth);
+	    this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth, Game.DIM_X, Game.DIM_Y);
 	    this.rows = 1;
 	    this.columns = 6;
 	    this.brick = new Brick(ctx, this.rows, this.columns);
@@ -112,20 +112,20 @@
 	
 	  drawScore(ctx){
 	    ctx.fillStyle = 'white';
-	    ctx.font = 'bold 10px Gloria Hallelujah';
+	    ctx.font = 'bold 20px Gloria Hallelujah';
 	    ctx.fillText(`SCORE : ${this.score}`, 20, 30);
 	  }
 	
 	  drawLives(ctx){
 	    ctx.fillStyle = 'white';
-	    ctx.font = 'bold 10px Gloria Hallelujah';
-	    ctx.fillText(`Lives: ${this.lives}`, 170, 30);
+	    ctx.font = 'bold 20px Gloria Hallelujah';
+	    ctx.fillText(`Lives: ${this.lives}`, 270, 30);
 	  }
 	
 	  drawLevels(ctx){
 	    ctx.fillStyle = 'white';
-	    ctx.font = 'bold 10px Gloria Hallelujah';
-	    ctx.fillText(`Level: ${this.level}`, 340, 30);
+	    ctx.font = 'bold 20px Gloria Hallelujah';
+	    ctx.fillText(`Level: ${this.level}`, 510, 30);
 	  }
 	
 	  displayLevel(ctx){
@@ -134,10 +134,10 @@
 	    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 	    ctx.fillStyle = 'white';
 	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`Level: ${this.level + 1}`, 50, 50);
+	    ctx.fillText(`Level: ${this.level + 1}`, 210, 150);
 	    ctx.fillStyle = 'white';
 	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`Your Score: ${this.score}`, 150, 150);
+	    ctx.fillText(`Your Score: ${this.score}`, 210, 350);
 	  }
 	
 	  drawGameOver(ctx){
@@ -145,11 +145,11 @@
 	    ctx.fillStyle = Game.BG_COLOR;
 	    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 	    ctx.fillStyle = 'white';
-	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`GAME OVER`, 25, 100);
+	    ctx.font = 'bold 40px Gloria Hallelujah';
+	    ctx.fillText(`GAME OVER`, 210, 150);
 	    ctx.fillStyle = 'white';
 	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`Your Score: ${this.score}`, 100, 250);
+	    ctx.fillText(`Your Score: ${this.score}`, 210, 350);
 	    this.restart(ctx);
 	  }
 	  drawGameWon(ctx){
@@ -158,10 +158,10 @@
 	    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 	    ctx.fillStyle = 'white';
 	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`You have won`, 25, 100);
+	    ctx.fillText(`You have won`, 210, 150);
 	    ctx.fillStyle = 'white';
 	    ctx.font = 'bold 24px Gloria Hallelujah';
-	    ctx.fillText(`Your Score: ${this.score}`, 100, 250);
+	    ctx.fillText(`Your Score: ${this.score}`, 210, 350);
 	    this.restart(ctx);
 	  }
 	
@@ -169,33 +169,10 @@
 	
 	
 	  brickBallCollision(){
-	    // console.log("X cord");
-	    // console.log(this.ball.x);
-	    // console.log("Y cord");
-	    // console.log(this.ball.y);
+	
 	    for( let c = 0; c < this.columns ; c++ ){
 	      for ( let r = 0; r < this.rows; r++){
-	        // the position of ball is greater than the position of brick
-	        // if (this.brick.bricks[c][r].alive === 1) {
-	        //   // console.log(this.brick.bricks[c][r]);
-	        //   if ((this.ball.x - this.radius) > (this.brick.bricks[c][r].x - this.brickWidth) ) {
-	        //     if ( (this.ball.y + this.radius) >= (this.brick.bricks[c][r].y - this.brickHeight)){
-	        //       //should check for position of ball being less than that of brick
-	        //       //here i need to width of the brick to the x position of brick as the ball can hit any part of the width
-	        //       if((this.ball.x + this.radius) <= (this.brick.bricks[c][r].x + this.brickWidth)) {
-	        //         // i  need to check if i need to add height as well
-	        //         if((this.ball.y - this.radius) <= (this.brick.bricks[c][r].y + this.brickHeight)){
-	        //           // make the brick disappear
-	        //           // need to change the direction of the ball
-	        //           this.ball.movey = - this.ball.movey;
-	        //           this.score += this.scorefactor;
-	        //           this.brick.bricks[c][r].alive = -1;
-	        //           this.count --;
-	        //         }
-	        //       }
-	        //     }
-	        //   }
-	        // }
+	
 	        if (this.brick.bricks[c][r].alive === 1) {
 	          //Check bottom collision
 	          // debugger
@@ -289,7 +266,7 @@
 	
 	        this.count = (this.rows * this.noOfBricks);
 	        this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
-	        this.paddle = new Paddle(ctx, ((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth);
+	        this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth, Game.DIM_X, Game.DIM_Y);
 	        this.brick = new Brick(ctx, this.rows, this.columns);
 	        this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
 	        this.ball.x = Game.DIM_X / 2;
@@ -394,7 +371,7 @@
 	    this.paddle = null;
 	    delete this.paddle;
 	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
-	    this.paddle = new Paddle(ctx, ((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth);
+	    this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth, Game.DIM_X, Game.DIM_Y);
 	    this.brick = new Brick(ctx, this.rows, this.columns);
 	    this.paddle.x = (Game.DIM_X / 2) - 50;
 	    this.paddle.displayPaddle();
@@ -406,8 +383,8 @@
 	
 	}
 	Game.BG_COLOR = "#000000";
-	Game.DIM_X = 400;
-	Game.DIM_Y = 300;
+	Game.DIM_X = 600;
+	Game.DIM_Y = 500;
 	
 	
 	module.exports = Game;
@@ -505,9 +482,9 @@
 	    }
 	    this.x+=this.movex;
 	    this.y+=this.movey;
-	    if (this.y >= 289) {
-	      this.reachbottom = true;
-	    }
+	    // if (this.y >= 289) {
+	    //   this.reachbottom = true;
+	    // }
 	  }
 	}
 	
@@ -576,13 +553,15 @@
 /***/ function(module, exports) {
 
 	class  Paddle{
-	  constructor(ctx, i , j, pw){
+	  constructor(ctx, i , j, pw, gamex, gamey){
 	    this.ctx = ctx;
 	    // this.dimX = i;
 	    // this.dimY = j;
 	    this.x = i;
 	    this.y = j;
 	    this.paddleWidth = pw;
+	    this.gamex =gamex;
+	    this.gamey=gamey;
 	  }
 	  displayPaddle(){
 	
@@ -605,12 +584,12 @@
 	        this.x = 0;
 	      }
 	    }else if (move === 10){
-	      if (this.x < (400-this.paddleWidth-10)){
+	      if (this.x < (this.gamex-this.paddleWidth-10)){
 	          this.x += (10);
 	        // this.x = this.x - 10 ;
 	      }
 	      else {
-	          this.x = 400-this.paddleWidth;
+	          this.x = this.gamex-this.paddleWidth;
 	      }
 	    }
 	  }

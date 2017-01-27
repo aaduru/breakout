@@ -15,7 +15,6 @@ main, a, img, div {
  background: transparent;
 }
 
-
 header {
   height: 105px;
   width: 100%;
@@ -33,6 +32,7 @@ h1 {
   padding-top: 0;
   padding-bottom: 0;
 }
+
 .title {
   font-family: 'Pacifico';
   font-size: 40px;
@@ -55,33 +55,30 @@ canvas {
 }
 
 .canvasDiv {
-  /*align-items: center;*/
   padding-right: 220px;
-
 }
+
 .bottombody {
   display: flex;
   justify-content: space-between;;
-
 }
 
 .instruction {
   border: 1px solid black;
   padding:10px;
   margin-left: 100px;
-  /*margin-right: 100px;*/
   margin-top: 85px;
   height: 180px;
   width: 200px;
   min-width: 200px;
   min-height: 200px;
-
 }
 
 .right {
   height: 20px;
   width: 20px;
 }
+
 .left {
   height: 20px;
   width: 20px;
