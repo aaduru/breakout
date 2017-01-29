@@ -46,19 +46,11 @@ if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.b
 }
 ```
 
-logic:
-I am checking the x and y positions of the brick and ball to check if the ball collides with bottom part of the brick. For the bottom part of the brick i check if the x position of the brick minus the radius is less than that of x position of the ball and the x position of the brick  summed with Brick width and radius greater than the position of the ball  is true then i check for the y position of the brick and the ball in a similar way. The above condition will be true only when the ball is colliding from the bottom, if that happens i remove that brick and change the direction of the ball.
+logic :
+if the ball's x position is between the bricks x position minus radius /√2 and bricks x position summed with bricks width and radius / √2 is true then we check for the y value. if the ball's y position  is between bricks y position summed with height and ball's y update value and bricks y position plus bricks  height minus ball's update value is true then we set the new ball's update value.
 
-I have calculated similarly for the top, left and right.
+I calculated the ball's left, right and bottom in the similar way.
 
-
-The game class also calculates the score. if the ball goes beyond the y bottom of the canvas then the player loses a life.
-
-```js
-if ((this.ball.y + this.ball.movey) > (Game.DIM_Y - 10)) {
-  this.gameResetForLives(ctx);
-}
-```
 
 The game has three levels. A user can go to the next level only if the all the bricks in the current level are hit.
 

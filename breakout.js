@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keyup", (e) => {
     if(e.keyCode == 32 && !game.inPlay) {
       game.inPlay = true;
-      // console.log(game.inPlay);
       gameView.start();
     }
   });

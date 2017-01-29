@@ -102,50 +102,43 @@ class Game {
       for ( let r = 0; r < this.rows; r++){
 
         if (this.brick.bricks[c][r].alive === 1) {
-          //Check bottom collision
-          // debugger
+
           this.collision = false;
           if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
-          //  if((this.ball.y-this.radius) === (this.brick.bricks[c][r].y+this.brickHeight)){
             if((this.ball.y-this.radius) > (this.brick.bricks[c][r].y+this.brickHeight-Math.abs(this.ball.movey))){
               if((this.ball.y-this.radius) < (this.brick.bricks[c][r].y+this.brickHeight+Math.abs(this.ball.movey))){
                 this.collision = true;
                 this.ball.movey = - this.ball.movey;
-                // console.log("Bottom Collison");
+
               }
             }
           }
-          //Check top collision
+
           if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
-            //if((this.ball.y+this.radius) === (this.brick.bricks[c][r].y)){
             if((this.ball.y+this.radius) > (this.brick.bricks[c][r].y-Math.abs(this.ball.movey))){
               if((this.ball.y+this.radius) < (this.brick.bricks[c][r].y+Math.abs(this.ball.movey))){
                 this.collision = true;
                 this.ball.movey = - this.ball.movey;
-                // console.log("Top Collison");
+
               }
             }
           }
-          //Check left collision
+
           if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
-            //if((this.ball.x+this.radius) === Math.round(this.brick.bricks[c][r].x)){
             if((this.ball.x+this.radius) > Math.round(this.brick.bricks[c][r].x-Math.abs(this.ball.movex))){
               if((this.ball.x+this.radius) < Math.round(this.brick.bricks[c][r].x+Math.abs(this.ball.movex))){
                 this.collision = true;
                 this.ball.movex = - this.ball.movex;
-                // console.log("left Collison");
+
               }
             }
           }
-          //Check right collision
+
           if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
-            //debugger
-            //if((this.ball.x-this.radius) === Math.round(this.brick.bricks[c][r].x+this.brickWidth)){
             if((this.ball.x-this.radius) > Math.round(this.brick.bricks[c][r].x+this.brickWidth-Math.abs(this.ball.movex))){
               if((this.ball.x-this.radius) < Math.round(this.brick.bricks[c][r].x+this.brickWidth+Math.abs(this.ball.movex))){
                 this.collision = true;
                 this.ball.movex = - this.ball.movex;
-                // console.log("Right Collison");
               }
             }
           }
@@ -254,7 +247,6 @@ class Game {
     this.ball.displayBall();
     this.ball.ballUpdate(this.paddle.x);
     this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
-
 
   }
 

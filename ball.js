@@ -22,24 +22,27 @@ class Ball {
 
 
   ballUpdate(paddlex){
-
+    console.log(this.movey);
     if( ( (this.x + this.movex)  < 10) || ( (this.x + this.movex) > (this.dimX - 10) ) ) {
       this.movex=-this.movex;
-
     }
     if( (this.y + this.movey) < 10){
       this.movey=-this.movey;
     }
-    if ((this.y + this.movey) > (this.dimY - 30)) {
-      if (this.x > paddlex && this.x < (paddlex + this.paddlew ) ){
-          this.movey= (-1 *this.movey)  ;
+
+    if( ((paddlex - (10/1.44)) <= this.x) && (paddlex + this.paddlew + (10/1.44) >= this.x)) {
+      if((this.y+10) > (this.dimY - 20 - Math.abs(this.movey))){
+        if((this.y+10) < (this.dimY - 10 + Math.abs(this.movey))){
+          if(this.movey > 0){
+            console.log("top Paddle Collison");
+            this.movey = - this.movey;
+          }
+        }
       }
     }
+
     this.x+=this.movex;
     this.y+=this.movey;
-    // if (this.y >= 289) {
-    //   this.reachbottom = true;
-    // }
   }
 }
 

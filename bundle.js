@@ -46,7 +46,7 @@
 
 	
 	const Game = __webpack_require__(1);
-	const GameView = __webpack_require__(2);
+	const GameView = __webpack_require__(5);
 	
 	document.addEventListener("DOMContentLoaded", () => {
 	  const canvasEl = document.getElementsByTagName("canvas")[0];
@@ -59,7 +59,6 @@
 	  document.addEventListener("keyup", (e) => {
 	    if(e.keyCode == 32 && !game.inPlay) {
 	      game.inPlay = true;
-	      // console.log(game.inPlay);
 	      gameView.start();
 	    }
 	  });
@@ -70,9 +69,9 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const Ball = __webpack_require__(3);
-	const Brick = __webpack_require__(4);
-	const Paddle = __webpack_require__(5);
+	const Ball = __webpack_require__(2);
+	const Brick = __webpack_require__(3);
+	const Paddle = __webpack_require__(4);
 	
 	class Game {
 	  constructor(ctx) {
@@ -174,50 +173,43 @@
 	      for ( let r = 0; r < this.rows; r++){
 	
 	        if (this.brick.bricks[c][r].alive === 1) {
-	          //Check bottom collision
-	          // debugger
+	
 	          this.collision = false;
 	          if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
-	          //  if((this.ball.y-this.radius) === (this.brick.bricks[c][r].y+this.brickHeight)){
 	            if((this.ball.y-this.radius) > (this.brick.bricks[c][r].y+this.brickHeight-Math.abs(this.ball.movey))){
 	              if((this.ball.y-this.radius) < (this.brick.bricks[c][r].y+this.brickHeight+Math.abs(this.ball.movey))){
 	                this.collision = true;
 	                this.ball.movey = - this.ball.movey;
-	                // console.log("Bottom Collison");
+	
 	              }
 	            }
 	          }
-	          //Check top collision
+	
 	          if( ((this.brick.bricks[c][r].x - (this.radius/1.44)) <= this.ball.x) && (this.brick.bricks[c][r].x + this.brickWidth + (this.radius/1.44) >= this.ball.x)) {
-	            //if((this.ball.y+this.radius) === (this.brick.bricks[c][r].y)){
 	            if((this.ball.y+this.radius) > (this.brick.bricks[c][r].y-Math.abs(this.ball.movey))){
 	              if((this.ball.y+this.radius) < (this.brick.bricks[c][r].y+Math.abs(this.ball.movey))){
 	                this.collision = true;
 	                this.ball.movey = - this.ball.movey;
-	                // console.log("Top Collison");
+	
 	              }
 	            }
 	          }
-	          //Check left collision
+	
 	          if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
-	            //if((this.ball.x+this.radius) === Math.round(this.brick.bricks[c][r].x)){
 	            if((this.ball.x+this.radius) > Math.round(this.brick.bricks[c][r].x-Math.abs(this.ball.movex))){
 	              if((this.ball.x+this.radius) < Math.round(this.brick.bricks[c][r].x+Math.abs(this.ball.movex))){
 	                this.collision = true;
 	                this.ball.movex = - this.ball.movex;
-	                // console.log("left Collison");
+	
 	              }
 	            }
 	          }
-	          //Check right collision
+	
 	          if( ((this.brick.bricks[c][r].y + this.brickHeight + (this.radius/1.44)) >= this.ball.y) && ((this.brick.bricks[c][r].y - (this.radius/1.44) <= this.ball.y))) {
-	            //debugger
-	            //if((this.ball.x-this.radius) === Math.round(this.brick.bricks[c][r].x+this.brickWidth)){
 	            if((this.ball.x-this.radius) > Math.round(this.brick.bricks[c][r].x+this.brickWidth-Math.abs(this.ball.movex))){
 	              if((this.ball.x-this.radius) < Math.round(this.brick.bricks[c][r].x+this.brickWidth+Math.abs(this.ball.movex))){
 	                this.collision = true;
 	                this.ball.movex = - this.ball.movex;
-	                // console.log("Right Collison");
 	              }
 	            }
 	          }
@@ -327,7 +319,6 @@
 	    this.ball.ballUpdate(this.paddle.x);
 	    this.brick.drawBricks(this.brickWidth, this.brickHeight, this.brickPadding, this.brickTopPadding, this.brickLeftPadding);
 	
-	
 	  }
 	
 	  gameOver(ctx){
@@ -394,6 +385,162 @@
 /* 2 */
 /***/ function(module, exports) {
 
+	class Ball {
+	  constructor(ctx, i, j, dx, dy, pw) {
+	    this.ctx = ctx;
+	    this.dimX = i;
+	    this.dimY = j;
+	    this.x = i/2;
+	    this.y = j - 30;
+	    this.movex = dx;
+	    this.movey = -dy;
+	    this.reachbottom = false;
+	
+	    this.paddlew = pw;
+	  }
+	
+	  displayBall() {
+	    this.ctx.beginPath();
+	    this.ctx.fillStyle="white";
+	    this.ctx.arc(this.x,this.y,10,0,Math.PI*2,true);
+	    this.ctx.closePath();
+	    this.ctx.fill();
+	  }
+	
+	
+	  ballUpdate(paddlex){
+	    console.log(this.movey);
+	    if( ( (this.x + this.movex)  < 10) || ( (this.x + this.movex) > (this.dimX - 10) ) ) {
+	      this.movex=-this.movex;
+	    }
+	    if( (this.y + this.movey) < 10){
+	      this.movey=-this.movey;
+	    }
+	
+	    if( ((paddlex - (10/1.44)) <= this.x) && (paddlex + this.paddlew + (10/1.44) >= this.x)) {
+	      if((this.y+10) > (this.dimY - 20 - Math.abs(this.movey))){
+	        if((this.y+10) < (this.dimY - 10 + Math.abs(this.movey))){
+	          if(this.movey > 0){
+	            console.log("top Paddle Collison");
+	            this.movey = - this.movey;
+	          }
+	        }
+	      }
+	    }
+	
+	    this.x+=this.movex;
+	    this.y+=this.movey;
+	  }
+	}
+	
+	module.exports = Ball;
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	class Brick {
+	  constructor(ctx, r, c){
+	    this.ctx = ctx;
+	    this.bricks = [];
+	    this.alive = true;
+	    this.rows = r ;
+	    this.columns = c ;
+	
+	  }
+	  brickArray(){
+	    for(let i=0; i<this.columns; i++) {
+	      this.bricks[i] = [];
+	      for(let j=0; j < this.rows; j++) {
+	        // need to have x postion, y postion and alive value for every brick
+	        this.bricks[i][j] = { x: 0, y: 0, alive: 1};
+	
+	      }
+	    }
+	  }
+	  //
+	  drawBricks(w,h, p, tp, lp) {
+	    if (this.bricks.length === 0) {
+	      return;
+	    }
+	    for (let c = 0; c < this.columns; c++) {
+	      for (let r = 0; r < this.rows; r++) {
+	        if (this.bricks[c][r].alive > 0) {
+	          // set x and y postion of the bricks so that i can use them to keep track of the bricks
+	          let brickX = (c * (w + p)) + lp;
+	          let brickY = (r * (h + p)) + tp;
+	          this.bricks[c][r].x = brickX;
+	          this.bricks[c][r].y = brickY;
+	          this.ctx.beginPath();
+	          this.ctx.rect(brickX, brickY, w, h);
+	          this.ctx.fillStyle = "#841F27";
+	          this.ctx.fill();
+	          this.ctx.closePath();
+	        }
+	      }
+	  }
+	}
+	
+	
+	}
+	
+	module.exports = Brick;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	class  Paddle{
+	  constructor(ctx, i , j, pw, gamex, gamey){
+	    this.ctx = ctx;
+	    this.x = i;
+	    this.y = j;
+	    this.paddleWidth = pw;
+	    this.gamex =gamex;
+	    this.gamey=gamey;
+	  }
+	  displayPaddle(){
+	
+	    this.ctx.beginPath();
+	    this.ctx.fillStyle = "yellow";
+	    this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
+	    this.ctx.closePath();
+	    this.ctx.fill();
+	  }
+	
+	
+	  updatePaddle(move){
+	    console.log('updating paddle');
+	    if (move === -10 ){
+	      if (this.x > 10){
+	          this.x += (-10);
+	
+	      }
+	      else {
+	        this.x = 0;
+	      }
+	    }else if (move === 10){
+	      if (this.x < (this.gamex-this.paddleWidth-10)){
+	          this.x += (10);
+	
+	      }
+	      else {
+	          this.x = this.gamex-this.paddleWidth;
+	      }
+	    }
+	  }
+	
+	}
+	
+	module.exports = Paddle;
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
 	
 	class GameView {
 	  constructor(game, ctx) {
@@ -437,166 +584,6 @@
 	
 	
 	module.exports = GameView;
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	class Ball {
-	  constructor(ctx, i, j, dx, dy, pw) {
-	    this.ctx = ctx;
-	    this.dimX = i;
-	    this.dimY = j;
-	    this.x = i/2;
-	    this.y = j - 30;
-	    this.movex = dx;
-	    this.movey = -dy;
-	    this.reachbottom = false;
-	
-	    this.paddlew = pw;
-	  }
-	
-	  displayBall() {
-	    this.ctx.beginPath();
-	    this.ctx.fillStyle="white";
-	    this.ctx.arc(this.x,this.y,10,0,Math.PI*2,true);
-	    this.ctx.closePath();
-	    this.ctx.fill();
-	  }
-	
-	
-	  ballUpdate(paddlex){
-	
-	    if( ( (this.x + this.movex)  < 10) || ( (this.x + this.movex) > (this.dimX - 10) ) ) {
-	      this.movex=-this.movex;
-	
-	    }
-	    if( (this.y + this.movey) < 10){
-	      this.movey=-this.movey;
-	    }
-	    if ((this.y + this.movey) > (this.dimY - 30)) {
-	      if (this.x > paddlex && this.x < (paddlex + this.paddlew ) ){
-	          this.movey= (-1 *this.movey)  ;
-	      }
-	    }
-	    this.x+=this.movex;
-	    this.y+=this.movey;
-	    // if (this.y >= 289) {
-	    //   this.reachbottom = true;
-	    // }
-	  }
-	}
-	
-	module.exports = Ball;
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	class Brick {
-	  constructor(ctx, r, c){
-	    this.ctx = ctx;
-	    this.bricks = [];
-	    this.alive = true;
-	    this.rows = r ;
-	    this.columns = c ;
-	
-	  }
-	  brickArray(){
-	    for(let i=0; i<this.columns; i++) {
-	      this.bricks[i] = [];
-	      for(let j=0; j < this.rows; j++) {
-	        // need to have x postion, y postion and alive value for every brick
-	        this.bricks[i][j] = { x: 0, y: 0, alive: 1};
-	
-	      }
-	    }
-	  }
-	  //
-	  drawBricks(w,h, p, tp, lp) {
-	    if (this.bricks.length === 0) {
-	      return;
-	    }
-	    for (let c = 0; c < this.columns; c++) {
-	      for (let r = 0; r < this.rows; r++) {
-	        if (this.bricks[c][r].alive > 0) {
-	          // set x and y postion of the bricks so that i can use them to keep track of the bricks
-	          let brickX = (c * (w + p)) + lp;
-	          let brickY = (r * (h + p)) + tp;
-	          this.bricks[c][r].x = brickX;
-	          this.bricks[c][r].y = brickY;
-	          // // console.log(brickX);
-	          // // console.log(brickY);
-	          // console.log(h);
-	          // console.log(p);
-	          // console.log(tp);
-	          this.ctx.beginPath();
-	          this.ctx.rect(brickX, brickY, w, h);
-	          this.ctx.fillStyle = "#841F27";
-	          this.ctx.fill();
-	          this.ctx.closePath();
-	        }
-	      }
-	  }
-	}
-	
-	
-	}
-	
-	module.exports = Brick;
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	class  Paddle{
-	  constructor(ctx, i , j, pw, gamex, gamey){
-	    this.ctx = ctx;
-	    // this.dimX = i;
-	    // this.dimY = j;
-	    this.x = i;
-	    this.y = j;
-	    this.paddleWidth = pw;
-	    this.gamex =gamex;
-	    this.gamey=gamey;
-	  }
-	  displayPaddle(){
-	
-	    this.ctx.beginPath();
-	    this.ctx.fillStyle = "yellow";
-	    this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
-	    this.ctx.closePath();
-	    this.ctx.fill();
-	  }
-	
-	
-	  updatePaddle(move){
-	    console.log('updating paddle');
-	    if (move === -10 ){
-	      if (this.x > 10){
-	          this.x += (-10);
-	        // this.x = this.x + 10 ;
-	      }
-	      else {
-	        this.x = 0;
-	      }
-	    }else if (move === 10){
-	      if (this.x < (this.gamex-this.paddleWidth-10)){
-	          this.x += (10);
-	        // this.x = this.x - 10 ;
-	      }
-	      else {
-	          this.x = this.gamex-this.paddleWidth;
-	      }
-	    }
-	  }
-	
-	}
-	
-	module.exports = Paddle;
 
 
 /***/ }

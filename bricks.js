@@ -30,11 +30,6 @@ class Brick {
           let brickY = (r * (h + p)) + tp;
           this.bricks[c][r].x = brickX;
           this.bricks[c][r].y = brickY;
-          // // console.log(brickX);
-          // // console.log(brickY);
-          // console.log(h);
-          // console.log(p);
-          // console.log(tp);
           this.ctx.beginPath();
           this.ctx.rect(brickX, brickY, w, h);
           this.ctx.fillStyle = "#841F27";
