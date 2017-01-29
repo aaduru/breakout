@@ -99,7 +99,7 @@
 	
 	    this.noOfBricks = 6;
 	    this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
-	    this.brickHeight = 15;
+	    this.brickHeight = 25;
 	    this.brickPadding = 1;
 	    this.brickTopPadding = 50;
 	    this.brickLeftPadding = 1;
