@@ -22,7 +22,7 @@ class Ball {
 
 
   ballUpdate(paddlex){
-    console.log(this.movey);
+  
     if( ( (this.x + this.movex)  < 10) || ( (this.x + this.movex) > (this.dimX - 10) ) ) {
       this.movex=-this.movex;
     }
@@ -34,7 +34,7 @@ class Ball {
       if((this.y+10) > (this.dimY - 20 - Math.abs(this.movey))){
         if((this.y+10) < (this.dimY - 10 + Math.abs(this.movey))){
           if(this.movey > 0){
-            console.log("top Paddle Collison");
+
             this.movey = - this.movey;
           }
         }

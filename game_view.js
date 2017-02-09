@@ -12,7 +12,7 @@ class GameView {
     Object.keys(GameView.MOVES).forEach((k) => {
       let move = GameView.MOVES[k];
 
-      key(k, () => { console.log("callingpaddle");
+      key(k, () => {
       this.game.paddle.updatePaddle(move); });
       // this.game.paddle.updatePaddle(move);
     });

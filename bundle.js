@@ -409,7 +409,7 @@
 	
 	
 	  ballUpdate(paddlex){
-	    console.log(this.movey);
+	  
 	    if( ( (this.x + this.movex)  < 10) || ( (this.x + this.movex) > (this.dimX - 10) ) ) {
 	      this.movex=-this.movex;
 	    }
@@ -421,7 +421,7 @@
 	      if((this.y+10) > (this.dimY - 20 - Math.abs(this.movey))){
 	        if((this.y+10) < (this.dimY - 10 + Math.abs(this.movey))){
 	          if(this.movey > 0){
-	            console.log("top Paddle Collison");
+	
 	            this.movey = - this.movey;
 	          }
 	        }
@@ -474,7 +474,7 @@
 	          this.bricks[c][r].y = brickY;
 	          this.ctx.beginPath();
 	          this.ctx.rect(brickX, brickY, w, h);
-	          this.ctx.fillStyle = "#841F27";
+	          this.ctx.fillStyle = "#f4b64a";
 	          this.ctx.fill();
 	          this.ctx.closePath();
 	        }
@@ -504,7 +504,7 @@
 	  displayPaddle(){
 	
 	    this.ctx.beginPath();
-	    this.ctx.fillStyle = "yellow";
+	    this.ctx.fillStyle = "#ff585b";
 	    this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
 	    this.ctx.closePath();
 	    this.ctx.fill();
@@ -512,7 +512,7 @@
 	
 	
 	  updatePaddle(move){
-	    console.log('updating paddle');
+	  
 	    if (move === -10 ){
 	      if (this.x > 10){
 	          this.x += (-10);
@@ -555,7 +555,7 @@
 	    Object.keys(GameView.MOVES).forEach((k) => {
 	      let move = GameView.MOVES[k];
 	
-	      key(k, () => { console.log("callingpaddle");
+	      key(k, () => {
 	      this.game.paddle.updatePaddle(move); });
 	      // this.game.paddle.updatePaddle(move);
 	    });

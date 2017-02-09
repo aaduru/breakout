@@ -18,7 +18,7 @@ class  Paddle{
 
 
   updatePaddle(move){
-    console.log('updating paddle');
+  
     if (move === -10 ){
       if (this.x > 10){
           this.x += (-10);
