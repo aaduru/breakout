@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 @import url('https://fonts.googleapis.com/css?family=Pattaya');
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+@import url('https://fonts.googleapis.com/css?family=Nova+Square');
+@import url('https://fonts.googleapis.com/css?family=Frijole');
+@import url('https://fonts.googleapis.com/css?family=Lato');
 
 html, body, header, h1, h2,
 main, a, img, div {
@@ -16,25 +19,31 @@ main, a, img, div {
 }
 
 header {
-  height: 105px;
+  /*height: 105px;*/
   width: 100%;
-  background-color: lightskyblue;
+  /*background-color: lightskyblue;*/
 }
 
 h1 {
   text-align: center;
 }
 
+.nav{
+  background-color: white;
+  margin-top: 10px;
+}
+
 .linkImage {
   height: 20px;
   width: 20px;
-  padding: 5px;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 6px 4px 4px 4px;
+  box-shadow: 1px 2px 3px pink;
+  border-radius: 3px;
 }
 
 .title {
-  font-family: 'Pacifico';
+  font-family: 'Frijole';
+  color: #ff585b;
   font-size: 40px;
 }
 
@@ -49,7 +58,8 @@ h1 {
 
 canvas {
   padding: 20px;
-  margin: 20px;
+
+  /*margin: 20px;*/
   align-self: baseline;
 
 }
@@ -60,14 +70,17 @@ canvas {
 
 .bottombody {
   display: flex;
-  justify-content: space-between;;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .instruction {
-  border: 1px solid black;
+  text-align: center;
+  border: 1px solid pink;
+  border-radius: 6px;
   padding:10px;
-  margin-left: 100px;
-  margin-top: 85px;
+  /*margin-left: 100px;*/
+  /*margin-top: 85px;*/
   height: 180px;
   width: 200px;
   min-width: 200px;
@@ -85,12 +98,12 @@ canvas {
 }
 
 h2 {
-  font-family: 'Pattaya';
+  font-family: 'Frijole';
   font-size: 20px;
   font-weight: bold;
-  color: #e8900a;
+  color: #ff585b;
 }
 
 p {
-  font-family: 'Indie Flower';
+  font-family: 'Lato';
 }

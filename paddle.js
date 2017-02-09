@@ -10,7 +10,7 @@ class  Paddle{
   displayPaddle(){
 
     this.ctx.beginPath();
-    this.ctx.fillStyle = "yellow";
+    this.ctx.fillStyle = "#ff585b";
     this.ctx.rect(this.x, this.y, this.paddleWidth, 20);
     this.ctx.closePath();
     this.ctx.fill();

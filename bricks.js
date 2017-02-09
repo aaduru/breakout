@@ -32,7 +32,7 @@ class Brick {
           this.bricks[c][r].y = brickY;
           this.ctx.beginPath();
           this.ctx.rect(brickX, brickY, w, h);
-          this.ctx.fillStyle = "#841F27";
+          this.ctx.fillStyle = "#f4b64a";
           this.ctx.fill();
           this.ctx.closePath();
         }
