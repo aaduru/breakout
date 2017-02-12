@@ -78,7 +78,7 @@
 	    this.ctx = ctx;
 	    this.dx = 1;
 	    this.dy = -1;
-	    this.paddleWidth = 100;
+	    this.paddleWidth = 140;
 	    this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
 	    this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth, Game.DIM_X, Game.DIM_Y);
 	    this.rows = 1;
@@ -346,7 +346,7 @@
 	    this.maxlevel = 3;
 	
 	    this.isOver = false;
-	    this.paddleWidth = 100;
+	    this.paddleWidth = 140;
 	    this.noOfBricks = 6;
 	    this.count = this.noOfBricks;
 	    this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
@@ -512,18 +512,18 @@
 	
 	
 	  updatePaddle(move){
-	  
-	    if (move === -10 ){
-	      if (this.x > 10){
-	          this.x += (-10);
+	
+	    if (move === -25 ){
+	      if (this.x > 25){
+	          this.x += (-25);
 	
 	      }
 	      else {
 	        this.x = 0;
 	      }
-	    }else if (move === 10){
-	      if (this.x < (this.gamex-this.paddleWidth-10)){
-	          this.x += (10);
+	    }else if (move === 25){
+	      if (this.x < (this.gamex-this.paddleWidth-25)){
+	          this.x += (25);
 	
 	      }
 	      else {
@@ -577,8 +577,8 @@
 	}
 	
 	GameView.MOVES = {
-	  "left": -10,
-	  "right": 10
+	  "left": -25,
+	  "right": 25
 	};
 	
 	

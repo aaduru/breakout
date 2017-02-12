@@ -18,18 +18,18 @@ class  Paddle{
 
 
   updatePaddle(move){
-  
-    if (move === -10 ){
-      if (this.x > 10){
-          this.x += (-10);
+
+    if (move === -25 ){
+      if (this.x > 25){
+          this.x += (-25);
 
       }
       else {
         this.x = 0;
       }
-    }else if (move === 10){
-      if (this.x < (this.gamex-this.paddleWidth-10)){
-          this.x += (10);
+    }else if (move === 25){
+      if (this.x < (this.gamex-this.paddleWidth-25)){
+          this.x += (25);
 
       }
       else {

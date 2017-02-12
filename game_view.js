@@ -34,8 +34,8 @@ class GameView {
 }
 
 GameView.MOVES = {
-  "left": -10,
-  "right": 10
+  "left": -25,
+  "right": 25
 };
 
 

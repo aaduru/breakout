@@ -65,7 +65,7 @@ canvas {
 }
 
 .canvasDiv {
-  padding-right: 220px;
+  /*padding-right: 220px;*/
 }
 
 .bottombody {
@@ -79,12 +79,14 @@ canvas {
   border: 1px solid pink;
   border-radius: 6px;
   padding:10px;
-  /*margin-left: 100px;*/
+  margin-left: 20px;
+  margin-right: 20px;
   /*margin-top: 85px;*/
   height: 180px;
   width: 200px;
   min-width: 200px;
   min-height: 200px;
+
 }
 
 .right {

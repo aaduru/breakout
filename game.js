@@ -7,7 +7,7 @@ class Game {
     this.ctx = ctx;
     this.dx = 1;
     this.dy = -1;
-    this.paddleWidth = 100;
+    this.paddleWidth = 140;
     this.ball = new Ball(ctx, Game.DIM_X, Game.DIM_Y, this.dx, this.dy, this.paddleWidth);
     this.paddle = new Paddle(ctx,((Game.DIM_X/2) - (this.paddleWidth/2)), (Game.DIM_Y - 20), this.paddleWidth, Game.DIM_X, Game.DIM_Y);
     this.rows = 1;
@@ -275,7 +275,7 @@ class Game {
     this.maxlevel = 3;
 
     this.isOver = false;
-    this.paddleWidth = 100;
+    this.paddleWidth = 140;
     this.noOfBricks = 6;
     this.count = this.noOfBricks;
     this.brickWidth = ((Game.DIM_X - 7) / this.noOfBricks) ;
