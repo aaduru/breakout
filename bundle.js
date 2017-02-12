@@ -93,7 +93,7 @@
 	    this.scorefactor = 100;
 	    this.lives = 3;
 	    this.level = 1 ;
-	    this.maxlevel = 4;
+	    this.maxlevel = 2;
 	
 	    this.isOver = false;
 	
@@ -224,19 +224,18 @@
 	    }
 	  }
 	
-	  won(ctx){
-	    if (this.level === 3 && this.count === 0){
-	      this.drawGameWon(ctx);
-	    }
-	  }
+	
 	  nextLevel(ctx){
 	    if (this.count === 0) {
 	      this.displayLevel(ctx);
-	      if (this.level < this.maxlevel ){
+	      if (this.level < 3 ){
+	        // console.log(this.level);
+	        // console.log(this.level <= 2);
 	        // TODO: refactor to not rely on window
 	        clearInterval(window.interval);
 	        this.inPlay = false;
 	        this.level++;
+	        console.log(this.level);
 	        this.brick.bricks = [];
 	        this.brick = null;
 	        delete this.brick;
@@ -268,8 +267,10 @@
 	        this.paddle.displayPaddle();
 	        this.ball.displayBall();
 	        this.ball.ballUpdate(this.paddle.x);
-	
 	      }
+	      // if (this.level === 2 ) {
+	      //   this.won(ctx);
+	      // }
 	
 	    }
 	  }
@@ -329,6 +330,14 @@
 	    }
 	  }
 	
+	  won(ctx){
+	    if (this.level === 3 && this.count === 0){
+	      clearInterval(window.interval);
+	      this.inPlay = false;
+	      this.drawGameWon(ctx);
+	    }
+	  }
+	
 	  restart(ctx) {
 	
 	    this.rows = 1;
@@ -343,7 +352,7 @@
 	    this.scorefactor = 100;
 	    this.lives = 3;
 	    this.level = 1 ;
-	    this.maxlevel = 3;
+	    this.maxlevel = 2;
 	
 	    this.isOver = false;
 	    this.paddleWidth = 140;
